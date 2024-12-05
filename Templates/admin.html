@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <title>ScoreSync | Index</title>
+</head>
+
+<body>
+    <script id="replace_with_navbar" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <div class="row">
+        <div class="main container col s8 m5">
+            <div class="main container col s12 m12">
+                <label>Primary Chart</label>
+                <div id="BarGraph" class="graph"></div>
+            </div>
+        </div>
+
+        <div class="main container col s4 m2">
+            <label>Team Management</label>
+            <div class="management container col s12">
+                <label>Remove Team</label>
+                <div class="input-field col s12">
+                    <select class="multiple col s12">
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select>
+                </div>
+                <button class="submit btn waves-effect waves-light" type="submit" name="action">Remove
+                    <i class="material-icons right">remove</i>
+                </button>
+                <br>
+                <hr>
+                    <input placeholder="Team Name" id="team-name" type="text" class="validate">
+                    <button class="submit btn waves-effect waves-light" type="submit" name="action">Add Team
+                        <i class="material-icons right">add</i>
+                    </button>
+            </div>
+        </div>
+
+        <div class="main container col s12 m5">
+
+
+
+            <table class="highlight white-text">
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Organisation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Team1</td>
+                        <td>Org1</td>
+                    </tr>
+                    <tr>
+                        <td>Team2</td>
+                        <td>Org2</td>
+                    </tr>
+                    <tr>
+                        <td>Team2</td>
+                        <td>Org2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <script id="replace_with_footer" src="{{ url_for('static', filename='js/footer.js') }}"></script>
+</body>
+<script src="{{ url_for('static', filename='js/admin-bars.js') }}"></script>
+<script src="{{ url_for('static', filename='js/select.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
+
+</html>

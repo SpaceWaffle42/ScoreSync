@@ -1,0 +1,51 @@
+body{
+    margin: 0 auto;
+    font-family:'Courier New', Courier, monospace;
+    /* color: aliceblue; */
+    background-color: #424242;
+}
+
+.page-footer{
+    top:100vh;
+    position: absolute;
+    width: 100%;
+}
+
+.main{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* max-height: 88vh; */
+}
+
+  .graph{
+    max-width: 750px;
+    margin: 35px auto;
+  }
+  
+  label{
+    color: aliceblue;
+  }
+
+  input{
+    color: aliceblue;
+  }
+
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    background-color: aliceblue;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.management{
+    border-style: solid;
+    border-width: thin;
+    text-align: center;
+}
+.overview-graph{
+    max-width: auto;
+    margin: 35px auto;
+}
+.tabs-content{
+    overflow-y: auto;
+}
