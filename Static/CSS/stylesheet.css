@@ -2,7 +2,7 @@ body {
   margin: 0 auto;
   font-family: 'Courier New', Courier, monospace;
   /* color: aliceblue; */
-  background-color: #424242;
+  background-color: #212121;
 }
 
 .page-footer {
@@ -55,5 +55,28 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .carousel-slider {
-  height: 100vh;
+  height: 75vh;
+}
+
+.custom-scrollbar {
+  height: 200px; /* Set a fixed height to enable scrolling */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* For Firefox, make the scrollbar thinner */
+  scrollbar-color: red blue; /* For Firefox, tracker red, back bar blue */
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #424242 ;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #212121 ;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #263238 ;
 }

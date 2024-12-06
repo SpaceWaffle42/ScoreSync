@@ -13,7 +13,7 @@ var options = {
   }],
   chart: {
     type: 'bar',
-    height: 350
+    height: 600
   },
   plotOptions: {
     bar: {
