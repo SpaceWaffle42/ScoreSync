@@ -1,57 +1,59 @@
-body{
-    margin: 0 auto;
-    font-family:'Courier New', Courier, monospace;
-    /* color: aliceblue; */
-    background-color: #424242;
+body {
+  margin: 0 auto;
+  font-family: 'Courier New', Courier, monospace;
+  /* color: aliceblue; */
+  background-color: #424242;
 }
 
-.page-footer{
-    /* top:30vh; */
-    bottom: 0;
-    position: relative;
-    width: 100%;
+.page-footer {
+  /* top:30vh; */
+  bottom: 0;
+  position: relative;
+  width: 100%;
 }
 
-.main{
-    padding-top: 10px;
-    padding-bottom: 10px;
-    /* max-height: 88vh; */
+.main {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* max-height: 88vh; */
 }
 
-  .graph{
-    width: 100%;
-    max-width: 600px;
-    margin: 35px auto;
-  }
+.graph {
+  width: 100%;
+  max-width: 600px;
+  margin: 35px auto;
+}
 
-  label{
-    color: aliceblue;
-  }
+label {
+  color: aliceblue;
+}
 
-  input{
-    color: aliceblue;
-  }
+input {
+  color: aliceblue;
+}
 
 
 input[type="time"]::-webkit-calendar-picker-indicator {
-    background-color: aliceblue;
-    border-radius: 50%;
-    cursor: pointer;
+  background-color: aliceblue;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-.management{
-    border-style: solid;
-    border-width: thin;
-    text-align: center;
+.management {
+  border-style: solid;
+  border-width: thin;
+  text-align: center;
 }
-.overview-graph{
+
+.overview-graph {
   width: 100%;
   margin: 35px auto;
 }
-.tabs-content{
-    overflow-y: auto;
+
+.tabs-content {
+  overflow-y: auto;
 }
 
-.carousel-slider{
+.carousel-slider {
   height: 100vh;
 }
