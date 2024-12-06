@@ -6,8 +6,9 @@ body{
 }
 
 .page-footer{
-    top:100vh;
-    position: absolute;
+    /* top:30vh; */
+    bottom: 0;
+    position: relative;
     width: 100%;
 }
 
@@ -18,10 +19,11 @@ body{
 }
 
   .graph{
-    max-width: 750px;
+    width: 100%;
+    max-width: 600px;
     margin: 35px auto;
   }
-  
+
   label{
     color: aliceblue;
   }
@@ -43,9 +45,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     text-align: center;
 }
 .overview-graph{
-    max-width: auto;
-    margin: 35px auto;
+  width: 100%;
+  margin: 35px auto;
 }
 .tabs-content{
     overflow-y: auto;
+}
+
+.carousel-slider{
+  height: 100vh;
 }

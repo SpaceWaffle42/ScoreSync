@@ -1,6 +1,6 @@
 var options = {
     chart: {
-      height: 280,
+      height: 560,
       type: "area"
     },
     dataLabels: {
@@ -38,7 +38,7 @@ var options = {
 
   var options2 = {
     chart: {
-      height: 280,
+      height: 560,
       type: "area"
     },
     dataLabels: {
@@ -76,7 +76,7 @@ var options = {
   
   var options3 = {
     chart: {
-      height: 280,
+      height: 560,
       type: "area"
     },
     dataLabels: {
