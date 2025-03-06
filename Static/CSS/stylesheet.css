@@ -65,6 +65,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   scrollbar-color: red blue; /* For Firefox, tracker red, back bar blue */
 }
 
+
+.dataTables_filter {
+  float: left !important;
+}
+
+
 ::-webkit-scrollbar {
   width: 12px;
 }
