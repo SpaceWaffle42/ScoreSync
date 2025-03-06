@@ -36,12 +36,13 @@ def get_stands():
     cur = con.cursor()
 
     # Simplified SQL query to select all data
-    sql = "SELECT * FROM stands ORDER BY host;"
+    sql = "SELECT * FROM stands ORDER BY stand;"
     cur.execute(sql)
 
     dbfilter = [
         {
-
+            "stand":row[0],
+            "code":row[1]
         }
         for row in cur.fetchall()
     ]
@@ -55,12 +56,12 @@ def get_teams():
     cur = con.cursor()
 
     # Simplified SQL query to select all data
-    sql = "SELECT * FROM teams ORDER BY host;"
+    sql = "SELECT * FROM teams ORDER BY team;"
     cur.execute(sql)
 
     dbfilter = [
         {
-
+            "team":row[0]
         }
         for row in cur.fetchall()
     ]
@@ -75,7 +76,7 @@ def get_data():
     cur = con.cursor()
 
     # Simplified SQL query to select all data
-    sql = "SELECT * FROM data ORDER BY host;"
+    sql = "SELECT * FROM data ORDER BY date;"
     cur.execute(sql)
 
     dbfilter = [
