@@ -2,6 +2,7 @@ import sqlite3
 import pathlib
 import os
 import json
+import random
 
 py_path = pathlib.Path(__file__).parent.resolve()
 
@@ -149,3 +150,34 @@ class Database():
         # con.close()
 
 Database.initial()
+
+if __name__ == "__main__":
+    stands = []
+    teams = []
+
+    for i in range(50):
+        teams.append(f"Team {i+1}")
+    
+    for x in range(25):
+        stand_name = f"Stand {x+1}"
+        stand_code = random.randrange(100000, 999999)
+        stands.append((stand_name, stand_code))
+    
+    print(stands, "\n", teams)
+    
+    con = sqlite3.connect(os.path.join(py_path, "database.db"))
+    cur = con.cursor()
+    
+    try:
+        for stand, code in stands:
+            cur.execute("REPLACE INTO stands (stand, code) VALUES (?, ?)", (stand, code))
+        
+        for team in teams:
+            cur.execute("REPLACE INTO teams (team) VALUES (?)", (team,))
+        
+        con.commit()
+        
+    except Exception as e:
+        print(f"Database Error: {e}")
+    finally:
+        con.close()
