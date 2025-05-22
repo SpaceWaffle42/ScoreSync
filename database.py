@@ -1,183 +1,129 @@
 import sqlite3
 import pathlib
 import os
-import json
 import random
+import datetime
 
 py_path = pathlib.Path(__file__).parent.resolve()
 
-class Database():
+
+class Database:
     def initial():
         con = sqlite3.connect(os.path.join(py_path, "database.db"))
         cur = con.cursor()
 
         sql = "SELECT name FROM sqlite_master WHERE type='table' AND name= (?)"
-
         listOfTables = cur.execute(sql, ("data",)).fetchall()
+
         if listOfTables == []:
-            print("Table not found!")
-            tabledate = '''
-            CREATE TABLE "data" (
-                team TEXT PRIMARY KEY,
-                points TEXT,
-                stand TEXT,
-                date TEXT
-            );
-            '''
-            cur.execute(tabledate)
+            print("Table not found! Creating tables...")
 
-            tabledate = '''
-            CREATE TABLE "stands" (
-                stand TEXT PRIMARY KEY,
-                code INT
-            );
-            '''
-            cur.execute(tabledate)
+            cur.execute(
+                """
+                CREATE TABLE teams (
+                    team_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    team_name TEXT NOT NULL UNIQUE,
+                    organisation TEXT NOT NULL
+                );
+            """
+            )
 
-            tabledate = '''
-            CREATE TABLE "teams" (
-                team TEXT PRIMARY KEY
-            );
-            '''
-            cur.execute(tabledate)
-            con.close()
-        else:
-            pass
+            cur.execute(
+                """
+                CREATE TABLE stands (
+                    stand_name TEXT PRIMARY KEY
+                );
+            """
+            )
 
-    # def data():
-    #     con = sqlite3.connect(os.path.join(py_path, "database.db"))
-    #     cur = con.cursor()
-    #     sql = "SELECT * FROM data ORDER BY host;"
+            cur.execute(
+                """
+                CREATE TABLE data (
+                    data_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    team_id INTEGER NOT NULL,
+                    stand_name TEXT,
+                    points INTEGER NOT NULL,
+                    date TEXT NOT NULL,
+                    FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE CASCADE,
+                    FOREIGN KEY (stand_name) REFERENCES stands(stand_name) ON DELETE SET NULL
+                );
+            """
+            )
 
-    #     cur.execute(sql)
+        con.commit()
+        con.close()
 
+    def defualt_stands():
+        default_stand = "Admin"
+        con = sqlite3.connect(os.path.join(py_path, "database.db"))
+        cur = con.cursor()
+        sql = "INSERT OR IGNORE INTO stands (stand_name) VALUES (?)"
+        cur.execute(sql, (default_stand,))
+        con.commit()
+        con.close()
+        print("Default stands created successfully!")
 
-    #     filter = [
-    #         {
-    #             row[0]: {
-    #                 "date": row[10],
-    #                 "host_name": row[1],
-    #                 "mac_address": row[2],
-    #                 "mac_vendor": row[3],
-    #                 "os_accuracy": row[5],
-    #                 "os_cpe": row[6],
-    #                 "os_name": row[4],
-    #                 "port_closed": json.loads(row[8]) if row[8] else [],
-    #                 "port_filtered": json.loads(row[9]) if row[9] else [],
-    #                 "port_open": json.loads(row[7]) if row[7] else [],
-    #                 "notation":row[11]
-    #             }
-    #         }
-    #         for row in cur.fetchall()
-            
-    #     ]
-    #     con.close()
-
-    #     return filter
-
-    # def summary():
-    #     con = sqlite3.connect(os.path.join(py_path, "database.db"))
-    #     cur = con.cursor()
-    #     sql = "SELECT * FROM data ORDER BY host;"
-
-    #     cur.execute(sql)
-
-    #     grouping = {}
-
-    #     for row in cur.fetchall():
-    #         ip = row[0]
-    #         octet_grouping = ".".join(ip.split(".")[:3]) + ".X"
-
-    #         if octet_grouping not in grouping: # if the octet grouping does not exist then add it as a new grouping
-    #             grouping[octet_grouping] = {
-    #                 "date":row[10],
-    #                 "notation":row[11],
-    #                 "total": 0
-    #             }
-
-    #         grouping[octet_grouping]["total"] +=1 # this increments total IPs with each loop
-    #     con.close()
-
-    #     result = [
-    #     {
-    #         ip_group: {
-    #             "date": data["date"],
-    #             "notation": data["notation"],
-    #             "total": data["total"]
-    #         }
-    #     }
-    #     for ip_group, data in grouping.items()
-    # ] 
-    #     return (result)
-   
-
-    # def save(host, host_name, mac, vendor, os_name, accuracy, cpe,  p_open, p_closed, p_filtered, now, notation):
-    #     con = sqlite3.connect(os.path.join(py_path, "database.db"))
-    #     cur = con.cursor()
-    #     try:
-    #         sql ='''
-    #         REPLACE INTO "data"
-    #         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
-    #         '''
-
-    #         p_open_str = json.dumps(p_open)
-    #         p_closed_str = json.dumps(p_closed)
-    #         p_filtered_str = json.dumps(p_filtered)
-
-    #         values = [
-    #         host,
-    #         host_name,
-    #         mac, 
-    #         vendor, 
-    #         os_name, 
-    #         accuracy, 
-    #         cpe, 
-    #         p_open_str,
-    #         p_closed_str,
-    #         p_filtered_str,
-    #         now,
-    #         notation
-
-    #         ]
-    #         # print("values: ",values)
-
-    #     except Exception as e:
-    #         print(f"""database Error: {e}""")
-    #         pass
-
-        # cur.execute(sql, values)
-        # con.commit()
-        # con.close()
 
 Database.initial()
+Database.defualt_stands()
 
 if __name__ == "__main__":
-    stands = []
     teams = []
-
     for i in range(50):
-        teams.append(f"Team {i+1}")
-    
-    for x in range(25):
-        stand_name = f"Stand {x+1}"
-        stand_code = random.randrange(100000, 999999)
-        stands.append((stand_name, stand_code))
-    
-    print(stands, "\n", teams)
-    
+        team = f"Team {i+1}"
+        org = f"Organisation {random.randint(1, 10)}"
+        teams.append((team, org))
+
     con = sqlite3.connect(os.path.join(py_path, "database.db"))
     cur = con.cursor()
-    
+
     try:
-        for stand, code in stands:
-            cur.execute("REPLACE INTO stands (stand, code) VALUES (?, ?)", (stand, code))
-        
-        for team in teams:
-            cur.execute("REPLACE INTO teams (team) VALUES (?)", (team,))
-        
+        for team_name, org in teams:
+            cur.execute(
+                "INSERT OR IGNORE INTO teams (team_name, organisation) VALUES (?, ?)",
+                (team_name, org),
+            )
+
         con.commit()
-        
+
+        cur.execute("SELECT team_id, team_name FROM teams")
+        team_map = {name: tid for tid, name in cur.fetchall()}
+
+        cur.execute("SELECT stand_id, stand_name FROM stands")
+        stand_map = {name: sid for sid, name in cur.fetchall()}
+
+        for _ in range(100):
+            team_name, _ = random.choice(teams)
+            stand_name = random.choice(
+                list(stand_map.keys())
+            )  # Just use existing stands like "Admin"
+            points = random.randint(0, 100)
+
+            random_days = random.randint(0, 365)
+            random_hours = random.randint(0, 23)
+            random_minutes = random.randint(0, 59)
+
+            random_datetime = datetime.datetime.now() - datetime.timedelta(
+                days=random_days
+            )
+            random_datetime = random_datetime.replace(
+                hour=random_hours, minute=random_minutes
+            )
+
+            formatted_datetime = random_datetime.strftime("%Y-%m-%d %H:%M")
+
+            team_id = team_map[team_name]
+            stand_id = stand_map[stand_name]
+
+            cur.execute(
+                "INSERT INTO data (team_id, stand_id, points, date) VALUES (?, ?, ?, ?)",
+                (team_id, stand_id, points, formatted_datetime),
+            )
+
+        con.commit()
+
     except Exception as e:
         print(f"Database Error: {e}")
+        con.rollback()
     finally:
         con.close()

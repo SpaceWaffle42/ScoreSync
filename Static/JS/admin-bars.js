@@ -1,58 +1,99 @@
+const teamColors = ['#FF4136', '#FF851B', '#2ECC40', '#0074D9', '#B10DC9'];
 
+fetch("/data")
+  .then(res => res.json())
+  .then(data => {
+    const teamPoints = {};
+    const orgPoints = {};
+    const teamOrgs = {};
 
-var options = {
-  series: [{
-    name: 'Net Profit',
-    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-  }, {
-    name: 'Revenue',
-    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-  }, {
-    name: 'Free Cash Flow',
-    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-  }],
-  chart: {
-    type: 'bar',
-    height: 600
-  },
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      columnWidth: '55%',
-      borderRadius: 5,
-      borderRadiusApplication: 'end'
-    },
-  },
-  dataLabels: {
-    enabled: false
-  },
-  theme: {
-    mode: 'dark',
-  },
-  stroke: {
-    show: true,
-    width: 2,
-    colors: ['transparent']
-  },
-  xaxis: {
-    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-  },
-  yaxis: {
-    title: {
-      text: '$ (thousands)'
-    }
-  },
-  fill: {
-    opacity: 1
-  },
-  tooltip: {
-    y: {
-      formatter: function (val) {
-        return "$ " + val + " thousands"
+// Initialize team points and org points
+    data.forEach(entry => {
+      const team = `Team ${entry.team}`;
+      const org = entry.organisation;
+      const points = parseInt(entry.points) || 0;
+
+      teamPoints[team] = (teamPoints[team] || 0) + points;
+      orgPoints[org] = (orgPoints[org] || 0) + points;
+      teamOrgs[team] = org;
+    });
+
+    // Sort teams by points and get top 5
+    const topTeams = Object.entries(teamPoints)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+
+    const grouped = {};
+    const orgSet = new Set();
+
+    topTeams.forEach(([team, points]) => {
+      const org = teamOrgs[team];
+      orgSet.add(org);
+      if (!grouped[org]) grouped[org] = { teams: [], total: orgPoints[org] };
+      grouped[org].teams.push({ team, points });
+    });
+
+    const categories = Array.from(orgSet);
+    const series = [];
+    let colorIndex = 0;
+
+    // Add org series
+    topTeams.forEach(([team, points]) => {
+      const org = teamOrgs[team];
+      const dataArray = categories.map(cat => (cat === org ? points : 0));
+      series.push({
+        name: team,
+        data: dataArray,
+        color: teamColors[colorIndex++ % teamColors.length]
+      });
+    });
+// Add org total series
+    series.push({
+      name: "Org Total",
+      data: categories.map(org => orgPoints[org] || 0),
+      color: '#FFD700'
+    });
+
+    const options = {
+      series: series,
+      chart: {
+        type: 'bar',
+        height: 600,
+        stacked: false
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '60%',
+          borderRadius: 4,
+          borderRadiusApplication: 'end'
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      theme: {
+        mode: 'dark'
+      },
+      xaxis: {
+        categories: categories
+      },
+      yaxis: {
+        title: {
+          text: 'Points'
+        }
+      },
+      tooltip: {
+        y: {
+          formatter: val => val + ' pts'
+        }
+      },
+      legend: {
+        show: true
       }
-    }
-  }
-};
+    };
 
-var barchart = new ApexCharts(document.querySelector("#BarGraph"), options);
-barchart.render();
+    const chart = new ApexCharts(document.querySelector("#BarGraph"), options);
+    chart.render();
+  })
+  .catch(err => console.error("Chart data fetch failed:", err));

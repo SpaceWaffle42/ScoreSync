@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
 
     <title>ScoreSync | Index</title>
 </head>
@@ -18,70 +20,150 @@
     <div class="grey darken-3">
 
         <div class="row">
-            <div class="main container col s8 m5">
+
+            <div class="main container col s6 m5">
                 <div class="main container col s12 m12">
                     <label>Primary Chart</label>
                     <div id="BarGraph" class="graph"></div>
                 </div>
             </div>
 
-            <div class="main container col s4 m2">
-                <label>Team Management</label>
-                <div class="management container col s12">
+            <div class="main container col s4 m3">
+                <ul class="tabs grey darken-3" style="overflow-x: auto;">
+                    <li class="tab col s6 m3"><a href="#TeamManagement">Team</a></li>
+                    <li class="tab col s6 m3"><a href="#ScoreManagement">Score</a></li>
+                    <li class="tab col s6 m3"><a href="#StandManagement">Stand</a></li>
+                    <li class="tab col s6 m3"><a href="#Misc">Misc</a></li>
+                </ul>
+                <div class="management container col s12" id="TeamManagement">
+
                     <label>Remove Team</label>
                     <div class="input-field col s12">
-                        <select class="multiple col s12">
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
+                        <form method="POST" action="/remove_team" enctype='multipart/form-data'>
+
+                            <select name="team_remove" id="team_remove" class="multiple col s12 required">
+                                {% for team, org in teams %}
+                                <option value="{{ team }}">{{ team }} ({{ org }})</option>
+                                {% endfor %}
+                            </select>
+
+                            <button class="submit btn waves-effect waves-light" type="submit" name="action">Remove
+                                <i class="material-icons right">remove</i>
+                            </button>
+                        </form>
                     </div>
-                    <button class="submit btn waves-effect waves-light" type="submit" name="action">Remove
-                        <i class="material-icons right">remove</i>
-                    </button>
                     <br>
                     <hr>
-                    <input placeholder="Team Name" id="team-name" type="text" class="validate">
-                    <button class="submit btn waves-effect waves-light" type="submit" name="action">Add Team
-                        <i class="material-icons right">add</i>
-                    </button>
+                    <form method="POST" action="/process_team" enctype='multipart/form-data'>
+
+                        <label>Add Team</label>
+                        <hr>
+
+                        <input placeholder="Team Name" id="team-name" name="team-name" type="text" class="validate"
+                            required>
+                        <input placeholder="Organisation Name" id="org-name" name="org-name" type="text"
+                            class="validate" required>
+
+                        <button class="submit btn waves-effect waves-light" type="submit" name="action">Add Team
+                            <i class="material-icons right">add</i>
+                        </button>
+                    </form>
+                </div>
+                <br>
+
+                <div class="management container col s12" id="ScoreManagement">
+                    <label>Add points</label>
+                    <div class="input-field col s12">
+                        <form method="POST" action="/team_add_points" enctype='multipart/form-data'>
+
+                            <select class="multiple col s12" name="add_p_team" id="add_p_team" required>
+                                {% for team, org in teams %}
+                                <option value="{{ team }}">{{ team }} ({{ org }})</option>
+                                {% endfor %}
+                            </select>
+
+                            <select class="validate" name="stand_select" id="stand_select" required>
+                                {% for stand in stands %}
+                                <option value="{{ stand[0] }}">{{ stand[0] }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <input placeholder="Score" id="points" name="points" type="number" class="validate"
+                                required>
+
+                            <button class="submit btn waves-effect waves-light" type="submit" name="action">Add points
+                                <i class="material-icons right">add</i>
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="main container col s12 m5">
+            <div class="management container col s12" id="StandManagement">
+                <label>Remove Stand</label>
+                <hr>
+                <div class="input-field col s12">
+                    <form method="POST" action="/remove_stand" enctype='multipart/form-data'>
 
+                        <select class="multiple col s12" id="remove_stand" name="remove_stand" required>
+                            {% for stand in stands %}
+                            <option value="{{ stand[0] }}">{{ stand[0] }}</option>
+                            {% endfor %}
+                        </select>
 
+                        <button class="submit btn waves-effect waves-light" type="submit" name="action">Remove
+                            <i class="material-icons right">remove</i>
+                        </button>
+                    </form>
+                </div>
+                <br>
+                <label>Add Stand</label>
+                <hr>
 
-                <table class="highlight white-text">
-                    <thead>
-                        <tr>
-                            <th>Team</th>
-                            <th>Organisation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Team1</td>
-                            <td>Org1</td>
-                        </tr>
-                        <tr>
-                            <td>Team2</td>
-                            <td>Org2</td>
-                        </tr>
-                        <tr>
-                            <td>Team2</td>
-                            <td>Org2</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <form method="POST" action="/process_stand" enctype='multipart/form-data'>
+
+                    <input placeholder="Stand Name" id="add_stand" name="add_stand" type="text" class="validate"
+                        required>
+
+                    <button class="submit btn waves-effect waves-light" type="submit" name="action">Add Stand
+                        <i class="material-icons right">add</i>
+                    </button>
+                </form>
             </div>
+            <div class="management container col s12" id="Misc">
+                <label>Download Data</label>
+                <hr>
+                <button class="submit btn waves-effect waves-light" id="export-data-button" type="submit"
+                    name="action">Download
+                    Data
+                    <i class="material-icons right">file_download</i>
+                </button>
+            </div>
+            <div class="main container col s11 m4">
+                <div class="main container col s12" id="Teams">
+                    <table class="highlight white-text">
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>Organisation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teams-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
+
     </div>
     <script id="replace_with_footer" src="{{ url_for('static', filename='js/footer.js') }}"></script>
 </body>
 <script src="{{ url_for('static', filename='js/admin-bars.js') }}"></script>
 <script src="{{ url_for('static', filename='js/select.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/teams.js') }}"></script>
+<script src="{{ url_for('static', filename='js/csv-export.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
 
 </html>
