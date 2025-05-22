@@ -1,2 +1,5 @@
 *.db
 database.db
+*.pyc
+*.db
+*.db
