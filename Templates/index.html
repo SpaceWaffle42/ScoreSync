@@ -30,7 +30,7 @@
                 <li class="tab col s3"><a href="#Table">Table view</a></li>
             </ul>
 
-            <div class="col s12 m10">
+            <div class="col s12 m12">
 
                 <div id="Overview" class="col s12 m12">
 
@@ -56,42 +56,10 @@
                 </div>
             </div>
 
-            <div class="col s12 m2">
-                <form method="POST" action="/process_filter" enctype='multipart/form-data'>
-                    <label>Primary Chart Select</label>
-                    <select class="browser-default primary-team" name="primary-team" id="primary-team" required>
-                        <!-- this will grab the team and org from the /teams data point -->
-                        <option value="" disabled selected>Choose your option</option>
-                        {% for team, org in teams %}
-                        <option value="{{ team }}">{{ team }} ({{ org }})</option>
-                        {% endfor %}
-                    </select>
-
-                    <label>Secondary Chart Select</label>
-                    <select class="browser-default secondary-team" name="secondary-team" id="secondary-team" required>
-                        <option value="" disabled selected>Choose your option</option>
-                        {% for team, org in teams %}
-                        <option value="{{ team }}">{{ team }} ({{ org }})</option>
-                        {% endfor %}
-                    </select>
-
-                    <label>Show top Teams</label>
-                    <input type="number" id="top-teams" name="top-teams" id="top-teams" min="1" value="10" required>
-                    <div class="btm col s12">
-
-                        <br>
-
-                        <button class="submit btn waves-effect waves-light" type="submit" name="action">Submit
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
     <script id="replace_with_footer" src="{{ url_for('static', filename='js/footer.js') }}"></script>
 </body>
-<script src="{{ url_for('static', filename='js/org_filter.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js/scores-charts.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
