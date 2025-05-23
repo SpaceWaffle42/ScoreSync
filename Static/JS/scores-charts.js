@@ -1,26 +1,78 @@
 let chartTotal;
 let fullData = [];
+let lastDataHash = null;
+let debounceTimeout = null;
+let overviewInterval = null;
 
-document.addEventListener("DOMContentLoaded", fetchAndDrawOverviewChart);
+const FETCH_INTERVAL = 5 * 60 * 1;
+const DEBOUNCE_DELAY = 5 * 60 * 1;
+
+document.addEventListener("DOMContentLoaded", () => {
+    debounceFetchAndDrawOverviewChart();
+    if (!document.hidden) startOverviewInterval();
+});
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        stopOverviewInterval();
+    } else {
+        startOverviewInterval();
+        debounceFetchAndDrawOverviewChart();
+    }
+});
+function startOverviewInterval() {
+    if (!overviewInterval) {
+        overviewInterval = setInterval(() => {
+            debounceFetchAndDrawOverviewChart();
+        }, FETCH_INTERVAL);
+    }
+}
+
+function stopOverviewInterval() {
+    if (overviewInterval) {
+        clearInterval(overviewInterval);
+        overviewInterval = null;
+    }
+}
+
+function debounceFetchAndDrawOverviewChart() {
+    if (debounceTimeout) clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(fetchAndDrawOverviewChart, DEBOUNCE_DELAY);
+}
+
+function simpleHash(data) {
+    // Sort by data_id to keep consistency
+    const sortedData = [...data].sort((a, b) => a.data_id - b.data_id);
+    const json = JSON.stringify(sortedData);
+    let hash = 0;
+    for (let i = 0; i < json.length; i++) {
+        const chr = json.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash.toString();
+}
 
 async function fetchAndDrawOverviewChart() {
     try {
         const response = await fetch("/data");
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        fullData = await response.json();
+        const data = await response.json();
 
+        const currentHash = simpleHash(data);
+        if (currentHash === lastDataHash) return; // no changes skip
+        lastDataHash = currentHash;
+
+        fullData = data;
         renderOverviewChart(fullData);
     } catch (error) {
         console.error("Error fetching data for overview chart:", error);
     }
 }
 
-// Main chart render logic
 function renderOverviewChart(data) {
     const { seriesData, sortedDates } = buildCumulativeSeriesPerTeam(data);
     const uniqueColors = generateDistinctColors(seriesData.length);
 
-    // Assign unique color to each team line
     seriesData.forEach((series, idx) => {
         series.color = uniqueColors[idx];
     });
@@ -35,12 +87,10 @@ function renderOverviewChart(data) {
     }
 }
 
-// Build cumulative points per team
 function buildCumulativeSeriesPerTeam(data) {
     const teamDataMap = {};
     const uniqueDates = new Set();
 
-    // Group and sum by team/date
     data.forEach(({ team, organisation, date, points }) => {
         const key = `${team} (${organisation})`;
         const pts = parseInt(points, 10) || 0;
@@ -69,7 +119,6 @@ function buildCumulativeSeriesPerTeam(data) {
     return { seriesData, sortedDates };
 }
 
-// Generate distinct HSL-based colors
 function generateDistinctColors(count) {
     const goldenAngle = 137.508;
     const colors = [];
@@ -82,12 +131,12 @@ function generateDistinctColors(count) {
     return colors;
 }
 
-// Chart configuration with full interaction tools
 function buildChartOptions(seriesData, sortedDates) {
     return {
         chart: {
             height: 560,
             type: "area",
+            background: 'transparent',
             zoom: {
                 enabled: true,
                 type: 'x',
@@ -107,7 +156,9 @@ function buildChartOptions(seriesData, sortedDates) {
                 autoSelected: 'zoom'
             }
         },
-        theme: { mode: 'dark' },
+        theme: {
+            mode: 'dark'
+        },
         dataLabels: { enabled: false },
         stroke: {
             curve: 'smooth',
