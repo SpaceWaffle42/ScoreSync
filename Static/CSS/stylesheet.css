@@ -8,7 +8,7 @@ body {
 .page-footer {
   /* top:30vh; */
   bottom: 0;
-  position: relative;
+  position: absolute;
   width: 100%;
   padding-top: 0px;
 }
