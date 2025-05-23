@@ -58,6 +58,7 @@ fetch("/data")
       series: series,
       chart: {
         type: 'bar',
+        background: 'transparent',
         height: 600,
         stacked: false
       },
