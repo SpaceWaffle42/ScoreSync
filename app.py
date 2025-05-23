@@ -1,4 +1,14 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
+from flask import (
+    Flask,
+    render_template,
+    request,
+    jsonify,
+    redirect,
+    url_for,
+    send_file,
+    session,
+    flash,
+)
 import pandas as pd
 import pathlib
 import os
@@ -7,6 +17,7 @@ import sqlite3
 import database
 
 app = Flask(__name__)
+app.secret_key = "UKR4cyv8mcq5ecv_gng"
 
 py_path = pathlib.Path(__file__).parent.resolve()
 db_path = os.path.join(py_path, "database.db")
@@ -34,6 +45,9 @@ def footer():
 
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
@@ -108,7 +122,7 @@ def remove_stand():
             if stand == "Admin":
                 print("Cannot delete the Admin stand.")
                 return redirect(url_for("admin"))
-            
+
             else:
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
@@ -222,6 +236,8 @@ def process_stand():
             con.close()
 
     return redirect(url_for("admin"))
+
+
 @app.route("/proccess_filter", methods=["POST"])
 def process_filter():
     # This function will be used to filter based on Teams, with a primary team (primary-team) and a secondary (secondary-team) and top teams selected (top-teams) (defult 10)
@@ -257,8 +273,9 @@ def process_filter():
         finally:
             con.close()
 
+
 @app.route("/download_data", methods=["GET", "POST"])
-#Download data from the database and send it as a CSV file to the user, using the timestamp YYYYMMDD-hour:Minuite_Scoreboard using pandas and flask.
+# Download data from the database and send it as a CSV file to the user, using the timestamp YYYYMMDD-hour:Minuite_Scoreboard using pandas and flask.
 def download_data():
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -279,15 +296,38 @@ def download_data():
     rows = cur.execute(sql).fetchall()
     con.close()
 
-    df = pd.DataFrame(rows, columns=["data_id", "team", "organisation", "stand", "points", "date"])
+    df = pd.DataFrame(
+        rows, columns=["data_id", "team", "organisation", "stand", "points", "date"]
+    )
     timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M")
     filename = f"Scoreboard-{timestamp}.csv"
-    
+
     csv_path = os.path.join(py_path, filename)
     df.to_csv(csv_path, index=False)
 
     return send_file(csv_path, as_attachment=True)
 
+
+@app.route("/admin_login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        passcode = request.form.get("passcode", "")
+
+        if password == "P4ssw0Rd" or passcode == "123456":
+            session["admin_logged_in"] = True
+            return redirect(url_for("admin"))
+        else:
+            flash("Incorrect credentials. Try again.")
+            return redirect(url_for("admin_login"))
+
+    return render_template("admin_login.html")
+
+
+@app.route("/logout")
+def logout():
+    session.pop("admin_logged_in", None)
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
