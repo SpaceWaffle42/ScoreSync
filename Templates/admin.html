@@ -23,7 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
-    <title>ScoreSync | Index</title>
+    <title>ScoreSync | Admin</title>
   </head>
 
   <body>
@@ -237,12 +237,30 @@
             <i class="material-icons right">file_download</i>
           </button>
           <br />
+
+          <label>
+            Scoreboard Toggle
+            <hr />
+            <div class="switch" style="padding-bottom: 10px;">
+              <label>
+                Closed
+                <input type="checkbox" id="scoreboard-toggle" />
+                <span class="lever"></span>
+                Open
+              </label>
+            </div>
+          </label>
+          <button id="update-scoreboard-btn" class="btn">Update</button>
+
           <div
             class="logout"
             style="position: absolute; bottom: 0; left: 0; right: 0"
           >
             <hr />
-            <a href="/logout" class="submit btn waves-effect waves-light red darken-2">
+            <a
+              href="/logout"
+              class="submit btn waves-effect waves-light red darken-2"
+            >
               Logout <i class="material-icons right">logout</i>
             </a>
           </div>
@@ -267,6 +285,7 @@
       src="{{ url_for('static', filename='js/footer.js') }}"
     ></script>
   </body>
+  <script src="{{ url_for('static', filename='js/scoreboard-update.js') }}"></script>
   <script src="{{ url_for('static', filename='js/admin-bars.js') }}"></script>
   <script src="{{ url_for('static', filename='js/select.js') }}"></script>
   <script src="{{ url_for('static', filename='js/teams.js') }}"></script>
