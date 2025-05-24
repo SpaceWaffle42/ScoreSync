@@ -50,6 +50,18 @@ class Database:
             """
             )
 
+            cur.execute(
+                """CREATE TABLE IF NOT EXISTS scoreboard_status (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    is_open INTEGER DEFAULT 1 -- 1 = open, 0 = closed
+                );
+            """
+            )
+            cur.execute("SELECT COUNT(*) FROM scoreboard_status")
+            if cur.fetchone()[0] == 0:
+                cur.execute("INSERT INTO scoreboard_status (is_open) VALUES (1)")
+
+
         con.commit()
         con.close()
 
@@ -61,8 +73,6 @@ class Database:
         cur.execute(sql, (default_stand,))
         con.commit()
         con.close()
-        print("Default stands created successfully!")
-
 
 Database.initial()
 Database.defualt_stands()
@@ -89,8 +99,8 @@ if __name__ == "__main__":
         cur.execute("SELECT team_id, team_name FROM teams")
         team_map = {name: tid for tid, name in cur.fetchall()}
 
-        cur.execute("SELECT stand_id, stand_name FROM stands")
-        stand_map = {name: sid for sid, name in cur.fetchall()}
+        cur.execute("SELECT stand_name FROM stands")
+        stand_map = {name: name for (name,) in cur.fetchall()}
 
         for _ in range(100):
             team_name, _ = random.choice(teams)
@@ -113,11 +123,11 @@ if __name__ == "__main__":
             formatted_datetime = random_datetime.strftime("%Y-%m-%d %H:%M")
 
             team_id = team_map[team_name]
-            stand_id = stand_map[stand_name]
+            stand_name = stand_map[stand_name]
 
             cur.execute(
                 "INSERT INTO data (team_id, stand_id, points, date) VALUES (?, ?, ?, ?)",
-                (team_id, stand_id, points, formatted_datetime),
+                (team_id, stand_name, points, formatted_datetime),
             )
 
         con.commit()
