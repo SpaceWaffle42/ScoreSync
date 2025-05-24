@@ -59,8 +59,14 @@ def admin():
     )
     stands = cur.fetchall()
 
+    cur.execute("SELECT is_open FROM scoreboard_status ORDER BY id DESC LIMIT 1")
+    scoreboard_open = cur.fetchone()
+    scoreboard_open = bool(scoreboard_open[0]) if scoreboard_open else True
+
     con.close()
-    return render_template("admin.html", teams=teams, stands=stands)
+    return render_template(
+        "admin.html", teams=teams, stands=stands, scoreboard_open=scoreboard_open
+    )
 
 
 @app.route("/process_team", methods=["POST"])
@@ -328,6 +334,36 @@ def admin_login():
 def logout():
     session.pop("admin_logged_in", None)
     return redirect(url_for("index"))
+
+
+@app.route("/scoreboard_state")
+def scoreboard_state():
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+    cur.execute("SELECT is_open FROM scoreboard_status ORDER BY id DESC LIMIT 1")
+    row = cur.fetchone()
+    con.close()
+
+    return jsonify({"scoreboard_open": bool(row[0]) if row else True})
+
+
+@app.route("/toggle_scoreboard", methods=["POST"])
+def toggle_scoreboard():
+    if request.is_json:
+        data = request.get_json()
+        is_open = 1 if data.get("is_open") else 0
+    else:
+        is_open = 1 if request.form.get("is_open") == "1" else 0
+
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    cur.execute("DELETE FROM scoreboard_status")
+    cur.execute("INSERT INTO scoreboard_status (is_open) VALUES (?)", (is_open,))
+    con.commit()
+    con.close()
+
+    return jsonify({"status": "success", "scoreboard_open": is_open})
 
 
 if __name__ == "__main__":
