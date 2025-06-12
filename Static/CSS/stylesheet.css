@@ -95,3 +95,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 ::-webkit-scrollbar-thumb:hover {
   background: #263238 ;
 }
+
+  @media only screen and (max-width: 992px) {
+    .desktop-only {
+      display: none !important;
+    }
+  }
