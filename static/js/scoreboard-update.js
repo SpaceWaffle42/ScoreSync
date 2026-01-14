@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("/toggle_scoreboard")
     .then(res => res.json())
     .then(data => {
-      toggle.checked = data?.scoreboard_open === 1;
+      toggle.checked = data?.scoreboard_open === 0;
     });
 
   // When clicking the update button
@@ -17,15 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/toggle_scoreboard", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ is_open: isOpen ? 1 : 0 })
+      body: JSON.stringify({ is_open: isOpen ? 0 : 1 })
     })
-    .then(res => res.json())
-    .then(data => {
-      M.toast({ html: `Scoreboard ${isOpen ? "opened" : "closed"}`, displayLength: 2000 });
-    })
-    .catch(err => {
-      console.error("Failed to update scoreboard state", err);
-      M.toast({ html: "Update failed", classes: "red darken-2" });
-    });
+      .then(res => res.json())
+      .then(data => {
+        M.toast({ html: `Scoreboard ${isOpen ? "opened" : "closed"}`, displayLength: 2000 });
+      })
+      .catch(err => {
+        console.error("Failed to update scoreboard state", err);
+        M.toast({ html: "Update failed", classes: "red darken-2" });
+      });
   });
 });
