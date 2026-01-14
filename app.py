@@ -17,7 +17,7 @@ import sqlite3
 import database
 
 app = Flask(__name__)
-app.secret_key = "UKR4cyv8mcq5ecv_gng"
+app.secret_key = "dk6fb2u1cf1162881d7924ef726b0a34k70474c5a2bc91d00149d5c8nfbda4e2" #CHANGE THIS
 
 py_path = pathlib.Path(__file__).parent.resolve()
 db_path = os.path.join(py_path, "database.db")
@@ -317,10 +317,9 @@ def download_data():
 @app.route("/admin_login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        password = request.form.get("password", "")
         passcode = request.form.get("passcode", "")
 
-        if password == "P4ssw0Rd" or passcode == "123456":
+        if passcode == "123456":
             session["admin_logged_in"] = True
             return redirect(url_for("admin"))
         else:
