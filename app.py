@@ -8,6 +8,7 @@ from flask import (
     send_file,
     session,
     flash,
+    send_from_directory
 )
 import pandas as pd
 import pathlib
@@ -32,6 +33,9 @@ def index():
 def home():
     return render_template("index.html")
 
+@app.route('/favicon.ico') #Explicit as I found some deployments wouldn't find the icon
+def favicon():
+    return send_from_directory('static', 'favicon.ico', mimetype='image/x-icon')
 
 @app.route("/nav", methods=["GET", "POST"])
 def nav():
