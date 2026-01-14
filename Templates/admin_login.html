@@ -1,59 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link
-      rel="shortcut icon"
-      href="{{ url_for('static', filename='images/favicon.ico') }}"
-      type="image/x-icon"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/stylesheet.css') }}"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>ScoreSync | Login</title>
-  </head>
-  <body class="white-text">
-    <script
-      id="replace_with_navbar"
-      src="{{ url_for('static', filename='js/nav.js') }}"
-    ></script>
+<head>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <div class="row">
+  <title>ScoreSync | Login</title>
+</head>
+
+<body class="white-text">
+  <script id="replace_with_navbar" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+
+  <div class="row">
+    <br />
+    <div class="grey darken-3 col s4 push-s4 container">
+      <h4>Admin Access</h4>
+      <form method="POST">
+        <div class="input-field">
+          <label for="passcode">Passcode</label>
+          <br />
+          <input id="passcode" name="passcode" type="text" />
+        </div>
+        <button type="submit" class="btn red darken-2">Login</button>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div class="card-panel red lighten-1">{{ messages[0] }}</div>
+        {% endif %} {% endwith %}
+      </form>
       <br />
-      <div class="grey darken-3 col s4 push-s4 container">
-        <h4>Admin Access</h4>
-        <form method="POST">
-          <div class="input-field">
-            <label for="passcode">Passcode</label>
-            <br />
-            <input id="passcode" name="passcode" type="text" />
-          </div>
-          <!-- <div class="input-field">
-            <label for="password">Password</label>
-            <br>
-            <input id="password" name="password" type="password" />
-          </div> -->
-          <button type="submit" class="btn red darken-2">Login</button>
-          {% with messages = get_flashed_messages() %} {% if messages %}
-          <div class="card-panel red lighten-1">{{ messages[0] }}</div>
-          {% endif %} {% endwith %}
-        </form>
-        <br />
-      </div>
     </div>
-    <script
-      id="replace_with_footer"
-      src="{{ url_for('static', filename='js/footer.js') }}"
-    ></script>
-  </body>
+  </div>
+  <script id="replace_with_footer" src="{{ url_for('static', filename='js/footer.js') }}"></script>
+</body>
+
 </html>
