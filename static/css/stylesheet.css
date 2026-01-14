@@ -1,0 +1,103 @@
+body {
+  margin: 0 auto;
+  font-family: 'Courier New', Courier, monospace;
+  /* color: aliceblue; */
+  background-color: #212121;
+}
+
+.page-footer {
+  /* top:30vh; */
+  bottom: 0;
+  position: relative;
+  width: 100%;
+  padding-top: 0px;
+  z-index: 100;
+}
+
+.main {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* max-height: 88vh; */
+}
+
+.graph {
+  width: 100%;
+  max-width: 600px;
+  margin: 35px auto;
+}
+
+label {
+  color: aliceblue;
+}
+
+input {
+  color: aliceblue;
+}
+
+#Charts {
+  overflow-y: hidden;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background-color: aliceblue;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.management {
+  border-style: solid;
+  border-width: thin;
+  text-align: center;
+}
+
+.overview-graph {
+  width: 100%;
+  margin: 35px auto;
+}
+
+.tabs-content {
+  overflow-y: auto;
+}
+
+.carousel-slider {
+  height: 75vh;
+}
+
+.custom-scrollbar {
+  height: 200px; /* Set a fixed height to enable scrolling */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* For Firefox, make the scrollbar thinner */
+  scrollbar-color: red blue; /* For Firefox, tracker red, back bar blue */
+}
+
+.teams-overview{
+  max-height: 50rem;
+  overflow-y: auto;
+}
+
+.dataTables_filter {
+  float: left !important;
+}
+
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #424242 ;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #212121 ;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #263238 ;
+}
+
+  @media only screen and (max-width: 992px) {
+    .desktop-only {
+      display: none !important;
+    }
+  }
