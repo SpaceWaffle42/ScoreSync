@@ -18,7 +18,8 @@ import sqlite3
 import database
 
 app = Flask(__name__)
-app.secret_key = "dk6fb2u1cf1162881d7924ef726b0a34k70474c5a2bc91d00149d5c8nfbda4e2" #CHANGE THIS
+app.secret_key = "dk6fb2u1cf1162881d7924ef726b0a34k70474c5a2bc91d00149d5c8nfbda4e2" #CHANGE THIS (python -c "import secrets; print(secrets.token_hex(32))")
+pincode = "123456" #CHANGE THIS
 
 py_path = pathlib.Path(__file__).parent.resolve()
 db_path = os.path.join(py_path, "database.db")
@@ -323,7 +324,7 @@ def admin_login():
     if request.method == "POST":
         passcode = request.form.get("passcode", "")
 
-        if passcode == "123456":
+        if passcode == pincode:
             session["admin_logged_in"] = True
             return redirect(url_for("admin"))
         else:

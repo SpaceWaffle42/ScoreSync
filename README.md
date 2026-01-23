@@ -1,6 +1,8 @@
 # ScoreSync
  ScoreSync is a Flask application that allows a user to manage a scoreboard, with the ability to create custom teams within the front-end application.
 
+If you want a quick local deployment via Docker then use: ``` docker run -d -p 5000:5000 --name scoresync scoresync ```
+this method is NOT recommended as it is not very secure, but allows you to deploy locally without any issues.
  
 ## Installation
 Change directory to the app folder.
