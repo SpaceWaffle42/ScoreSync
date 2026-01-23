@@ -4,3 +4,4 @@ database.db
 *.db
 *.db
 /.venv
+venv
