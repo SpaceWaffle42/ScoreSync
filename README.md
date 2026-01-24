@@ -30,6 +30,7 @@ Single server works fine locally but don't use it for anything serious.
 ```python3 -m venv venv```
 
 ```source venv/bin/activate```   linux/mac
+
 or: ```venv\Scripts\activate```  windows
 
 ```pip3 install -r requirements.txt```
