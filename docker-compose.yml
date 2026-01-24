@@ -4,6 +4,9 @@ services:
       context: .
     ports:
       - "5000"
+    deploy:
+      replicas: 3
+    restart: unless-stopped
 
   nginx:
     image: nginx:latest
@@ -13,3 +16,4 @@ services:
       - app
     ports:
       - "80:80"
+    restart: unless-stopped
