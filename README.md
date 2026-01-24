@@ -29,8 +29,8 @@ Single server works fine locally but don't use it for anything serious.
 
 ```python3 -m venv venv```
 
-```source venv/bin/activate```  # linux/mac
-or: ```venv\Scripts\activate```  # windows
+```source venv/bin/activate```   linux/mac
+or: ```venv\Scripts\activate```  windows
 
 ```pip3 install -r requirements.txt```
 
@@ -38,15 +38,15 @@ or: ```venv\Scripts\activate```  # windows
 
 ## Docker Compose Commands
 
-```docker compose up -d```           # 1 server
+```docker compose up -d```                1 server
 
-```docker compose up -d --scale app=3```  # 3 servers  
+```docker compose up -d --scale app=3```  3 servers  
 
-```docker compose logs -f```         # watch logs
+```docker compose logs -f```              watch logs
 
-```docker compose down```            # stop
+```docker compose down```                 stop
 
-```sudo docker compose down -v```   # stop & delete volume (Database)
+```sudo docker compose down -v```         stop & delete volume (Database)
 
 
 ## Production
