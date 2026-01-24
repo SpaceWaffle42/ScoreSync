@@ -1,7 +1,6 @@
 services:
   app:
-    build:
-      context: .
+    image: scoresync
     ports:
       - "5000"
     deploy:
