@@ -46,6 +46,8 @@ or: ```venv\Scripts\activate```  # windows
 
 ```docker compose down```            # stop
 
+```sudo docker compose down -v```   # stop & delete volume (Database)
+
 
 ## Production
 https://flask.palletsprojects.com/en/2.3.x/tutorial/deploy/

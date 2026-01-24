@@ -4,12 +4,12 @@ import os
 import random
 import datetime
 
-py_path = pathlib.Path(__file__).parent.resolve()
-
-
+db_path = os.environ.get('DB_PATH', os.path.join(pathlib.Path(__file__).parent.resolve(), "database.db"))
 class Database:
+    
+    @staticmethod #####
     def initial():
-        con = sqlite3.connect(os.path.join(py_path, "database.db"))
+        con = sqlite3.connect(db_path)
         cur = con.cursor()
 
         sql = "SELECT name FROM sqlite_master WHERE type='table' AND name= (?)"
@@ -65,9 +65,10 @@ class Database:
         con.commit()
         con.close()
 
+    @staticmethod #####
     def defualt_stands():
         default_stand = "Admin"
-        con = sqlite3.connect(os.path.join(py_path, "database.db"))
+        con = sqlite3.connect(db_path)
         cur = con.cursor()
         sql = "INSERT OR IGNORE INTO stands (stand_name) VALUES (?)"
         cur.execute(sql, (default_stand,))
@@ -84,7 +85,7 @@ if __name__ == "__main__":
         org = f"Organisation {random.randint(1, 10)}"
         teams.append((team, org))
 
-    con = sqlite3.connect(os.path.join(py_path, "database.db"))
+    con = sqlite3.connect(db_path)
     cur = con.cursor()
 
     try:

@@ -22,7 +22,7 @@ app.secret_key = "dk6fb2u1cf1162881d7924ef726b0a34k70474c5a2bc91d00149d5c8nfbda4
 pincode = "123456" #CHANGE THIS
 
 py_path = pathlib.Path(__file__).parent.resolve()
-db_path = os.path.join(py_path, "database.db")
+db_path = os.environ.get('DB_PATH', os.path.join(py_path, "database.db"))
 
 
 @app.route("/", methods=["GET", "POST"])
