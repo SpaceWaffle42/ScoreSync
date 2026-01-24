@@ -3,6 +3,10 @@
 ScoreSync is a Flask app for managing scoreboards. Create custom teams right from the web interface.
 
 ## Quick Docker Setup
+**Note:**
+Please edit wsgi.py and set a new secret_key & Pin code
+
+To generate a new secret: ```python -c "import secrets; print(secrets.token_hex(32))"``` and replace the existing secret
 
 **3 servers behind nginx:**
 
