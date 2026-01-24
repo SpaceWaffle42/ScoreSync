@@ -10,11 +10,10 @@ To generate a new secret: ```python -c "import secrets; print(secrets.token_hex(
 
 **3 servers behind nginx:**
 
-```git clone https://github.com/SpaceWaffle42/ScoreSync.git```
-
-```cd ScoreSync```
-
-```docker compose up -d --build --scale app=3```
+```
+git clone https://github.com/SpaceWaffle42/ScoreSync.git
+cd ScoreSync
+docker compose up -d --build --scale app=3```
 
 ## Simple single server:
 
