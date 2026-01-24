@@ -1,6 +1,25 @@
 # ScoreSync
 
-ScoreSync is a Flask app for managing scoreboards. Create custom teams right from the web interface.
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/) [![Flask](https://img.shields.io/badge/flask-2.0+-green.svg)](https://flask.palletsprojects.com/) [![Docker](https://img.shields.io/badge/docker-enabled-blue.svg)](https://www.docker.com/) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) 	[![Status](https://img.shields.io/badge/status-active-brightgreen.svg)]()
+
+Real-time scoreboard management system with Flask, SQLite, and Docker. Create custom teams, track scores, and manage multiple stands with a responsive web interface. Supports load-balanced multi-container deployment with persistent shared database.
+
+## Features
+* Real-time Score Tracking - Update scores instantly across all replicas
+
+* Custom Teams & Stands - Create teams, organizations, and score stands via web interface
+
+* Multi-Container Deployment - 3 Docker containers behind Nginx load balancer
+
+* Shared Database - All containers connect to single persistent SQLite database
+
+* Admin Dashboard - Secure admin panel with PIN-based authentication
+
+* CSV Export - Download scoreboard data as CSV with timestamps
+
+* Responsive Design - Works on desktop, tablet, and mobile
+
+* Docker Optimized - Single command deployment with Docker Compose
 
 ## Quick Docker Setup
 **Note:**
