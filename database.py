@@ -7,7 +7,7 @@ import datetime
 db_path = os.environ.get('DB_PATH', os.path.join(pathlib.Path(__file__).parent.resolve(), "database.db"))
 class Database:
     
-    @staticmethod #####
+    @staticmethod
     def initial():
         con = sqlite3.connect(db_path)
         cur = con.cursor()
@@ -65,7 +65,7 @@ class Database:
         con.commit()
         con.close()
 
-    @staticmethod #####
+    @staticmethod
     def defualt_stands():
         default_stand = "Admin"
         con = sqlite3.connect(db_path)
