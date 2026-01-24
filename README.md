@@ -9,7 +9,7 @@ Real-time scoreboard management system with Flask, SQLite, and Docker. Create cu
 
 * Custom Teams & Stands - Create teams, organizations, and score stands via web interface
 
-* Multi-Container Deployment - 3 Docker containers behind Nginx load balancer
+* Multi-Container Deployment - Docker containers behind Nginx load balancer
 
 * Shared Database - All containers connect to single persistent SQLite database
 
