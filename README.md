@@ -35,14 +35,14 @@ cd ScoreSync
 docker compose up -d --build --scale app=3
 ```
 
-## Simple single server:
+## Simple single Docker server:
 
 ```docker build https://github.com/SpaceWaffle42/ScoreSync.git -t scoresync```
 
 ```docker run -d -p 5000:5000 --name scoresync scoresync```
 
 Single server works fine locally but don't use it for anything serious.
-
+## Simple single Non-Docker server:
 
 ```cd app```
 
