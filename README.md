@@ -5,7 +5,7 @@
 Real-time scoreboard management system with Flask, SQLite, and Docker. Create custom teams, track scores, and manage multiple stands with a responsive web interface. Supports load-balanced multi-container deployment with persistent shared database.
 
 ## Features
-* Real-time Score Tracking - Update scores instantly across all replicas
+* Real-time Score Tracking - Update scores instantly across all containers
 
 * Custom Teams & Stands - Create teams, organizations, and score stands via web interface
 
