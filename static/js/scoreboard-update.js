@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then(res => res.json())
       .then(data => {
-        M.toast({ html: `Scoreboard ${isOpen ? "opened" : "closed"}`, displayLength: 2000 });
+        M.toast({ html: `Scoreboard ${isOpen ? "closed" : "opened"}`, displayLength: 2000 });
       })
       .catch(err => {
         console.error("Failed to update scoreboard state", err);
